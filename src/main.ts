@@ -9,8 +9,7 @@ const renderer = new THREE.WebGLRenderer({ });
 renderer.setSize( window.innerWidth, window.innerHeight );
 const canvasContainer = document.getElementById("canvasContainer")!;
 canvasContainer.appendChild( renderer.domElement );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: false } );
-
+const material = new THREE.MeshMatcapMaterial()
 const loader = new STLLoader()
 
 let Xpos = 0;
