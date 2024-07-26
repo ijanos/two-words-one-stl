@@ -5,7 +5,7 @@ import { STLLoader, STLExporter, RoundedBoxGeometry } from 'three/examples/jsm/A
 const scene = new THREE.Scene();
 const exporter = new STLExporter();
 const loader = new STLLoader()
-const material = new THREE.MeshMatcapMaterial()
+const material = new THREE.MeshMatcapMaterial({ flatShading: true });
 
 
 async function loadGlyphs(glyphs: string[], addBase: boolean) {
@@ -13,20 +13,21 @@ async function loadGlyphs(glyphs: string[], addBase: boolean) {
     (await Promise.all(glyphs.map(glyph => loader.loadAsync(`font/${glyph}.stl`))).then()).forEach(geometry => {
         const mesh = new THREE.Mesh(geometry, material)
         mesh.position.set(Xpos, 0, 0);
-        Xpos += 0.29;
-        mesh.rotateY(0.7);
+        Xpos += 0.31;
+        mesh.rotateY(0.785);
         scene.add(mesh);
     });
 
     if (addBase) {
         const sceneBBox = new THREE.Box3().setFromObject(scene);
         const dimensions = new THREE.Vector3().subVectors( sceneBBox.max, sceneBBox.min );
-        const boxGeo = new RoundedBoxGeometry(dimensions.x, dimensions.y, dimensions.z);
+        const boxGeo = new RoundedBoxGeometry(dimensions.x, dimensions.y, dimensions.z, 24);
         const matrix = new THREE.Matrix4().setPosition(dimensions.addVectors(sceneBBox.min, sceneBBox.max).multiplyScalar( 0.5 ));
         boxGeo.applyMatrix4(matrix);
 
-        const base = new THREE.Mesh( boxGeo, material );
-        base.scale.set(1,0.05,1);
+        const base = new THREE.Mesh(boxGeo, material);
+        base.scale.set(1,0.095,1);
+        base.position.y -= 0.009;
         scene.add(base);
     }
 }
@@ -45,7 +46,7 @@ function setup3DCanvas(canvasContainer: HTMLElement) {
     const width = canvasContainer.clientWidth;
     const height = canvasContainer.clientHeight;
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     const controls = new OrbitControls(camera, renderer.domElement);
 
     renderer.setSize(width, height);
