@@ -17,6 +17,8 @@ function textsChanged() {
   update3DText(pairs);
 }
 
+textsChanged();
+
 const inputElements = document.querySelectorAll(".input-text");
 inputElements.forEach(e => {
   e.addEventListener("change", textsChanged)
