@@ -12,7 +12,7 @@ function textsChanged() {
     console.log("length mismatch");
     return;
   }
-  const pairs = [...text1].map((ch, i) => `${ch}${text2[i]}`);
+  const pairs = [...text2].map((ch, i) => `${ch}${text1[i]}`);
   update3DText(pairs);
 }
 
