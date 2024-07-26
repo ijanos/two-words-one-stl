@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { STLLoader } from 'three/examples/jsm/Addons.js';
+import { STLLoader, STLExporter } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -8,6 +8,7 @@ const renderer = new THREE.WebGLRenderer();
 const controls = new OrbitControls(camera, renderer.domElement);
 const loader = new STLLoader()
 const material = new THREE.MeshMatcapMaterial()
+const exporter = new STLExporter();
 
 async function loadGlyphs(glyphs: string[]) {
     let Xpos = 0;
@@ -17,7 +18,17 @@ async function loadGlyphs(glyphs: string[]) {
         mesh.position.set(Xpos, 0, 0);
         Xpos += 0.29;
         mesh.rotateY(0.7);
-    })
+    });
+}
+
+function exportSTL(filename: string) {
+    const options = { binary: true }
+    const result = exporter.parse( scene, options ) as DataView;
+    const url = URL.createObjectURL(new Blob([result.buffer], { type: 'application/sla' }));
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
 }
 
 function setup3DCanvas(canvasContainer: HTMLElement) {
@@ -58,4 +69,4 @@ function update3DText(glyphs: string[]) {
     loadGlyphs(glyphs);
 }
 
-export { setup3DCanvas, update3DText }
+export { setup3DCanvas, update3DText, exportSTL }
