@@ -28,3 +28,8 @@ exportButton.addEventListener("click", () => {
   const text2 = text2element.value.toUpperCase();
   exportSTL(`${text1}-${text2}.stl`);
 });
+
+const baseToggle = document.getElementById("base-toggle") as HTMLInputElement;
+baseToggle.addEventListener("change", () => {
+  console.log("TODO", baseToggle.checked);
+})
