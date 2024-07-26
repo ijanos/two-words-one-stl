@@ -2,14 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>two text to stl</title>
     <link rel="stylesheet" href="src/index.css">
   </head>
   <body>
-    <div class="underline">recece</div>
-    <div id="app"></div>
+    <div class="flex-col">
+      <div class="bg-teal-400 p-2 font-extrabold">two text one stl</div>
+      <div class="flex min-h-screen">
+        <div class="bg-slate-300 flex flex-col p-2 gap-2">
+          <input type="text" placeholder="text 1"/>
+          <input type="text" placeholder="text 2"/>
+        </div>
+        <div class="bg-lime-600 flex-grow">content</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
