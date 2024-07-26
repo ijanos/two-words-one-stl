@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { STLLoader, STLExporter } from 'three/examples/jsm/Addons.js';
+import { STLLoader, STLExporter, RoundedBoxGeometry } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene();
 const exporter = new STLExporter();
@@ -21,7 +21,7 @@ async function loadGlyphs(glyphs: string[], addBase: boolean) {
     if (addBase) {
         const sceneBBox = new THREE.Box3().setFromObject(scene);
         const dimensions = new THREE.Vector3().subVectors( sceneBBox.max, sceneBBox.min );
-        const boxGeo = new THREE.BoxGeometry(dimensions.x, dimensions.y, dimensions.z);
+        const boxGeo = new RoundedBoxGeometry(dimensions.x, dimensions.y, dimensions.z);
         const matrix = new THREE.Matrix4().setPosition(dimensions.addVectors(sceneBBox.min, sceneBBox.max).multiplyScalar( 0.5 ));
         boxGeo.applyMatrix4(matrix);
 
