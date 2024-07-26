@@ -26,7 +26,7 @@ async function loadGlyphs(glyphs: string[], addBase: boolean) {
         boxGeo.applyMatrix4(matrix);
 
         const base = new THREE.Mesh(boxGeo, material);
-        base.scale.set(1,0.095,1);
+        base.scale.set(1, 0.095, 1);
         base.position.y -= 0.009;
         scene.add(base);
     }
@@ -34,7 +34,7 @@ async function loadGlyphs(glyphs: string[], addBase: boolean) {
 
 function exportSTL(filename: string) {
     const options = { binary: true }
-    const result = exporter.parse( scene, options ) as DataView;
+    const result = exporter.parse(scene, options) as DataView;
     const url = URL.createObjectURL(new Blob([result.buffer], { type: 'application/sla' }));
     var a = document.createElement("a");
     a.href = url;

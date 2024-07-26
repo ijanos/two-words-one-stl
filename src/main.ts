@@ -7,35 +7,41 @@ const text1element = document.getElementById("text-1") as HTMLInputElement;
 const text2element = document.getElementById("text-2") as HTMLInputElement;
 const baseToggle = document.getElementById("base-toggle") as HTMLInputElement;
 const errorBox = document.getElementById("errorBox") as HTMLDivElement;
+const exportButton = document.getElementById("export") as HTMLButtonElement;
+
+const notAlphanumCharsRE = /[^a-zA-Z\d]/g;
+
+function normalizeInput(input: HTMLInputElement) {
+  const text = input.value
+  const normalized = text.replace(notAlphanumCharsRE, "").toUpperCase();
+  input.value = normalized;
+  return normalized;
+}
 
 function textsChanged() {
-  const text1 = text1element.value.toUpperCase();
-  const text2 = text2element.value.toUpperCase();
+  const text1 = normalizeInput(text1element);
+  const text2 = normalizeInput(text2element);
+
   if (text1.length != text2.length) {
-    console.log("length mismatch");
     errorBox.style.display = "block";
     return;
-  } else {
-    errorBox.style.display = "none";
   }
+  errorBox.style.display = "none";
+
   const pairs = [...text2].map((ch, i) => `${ch}${text1[i]}`);
   update3DText(pairs, baseToggle.checked);
 }
 
 textsChanged();
 
-const inputElements = document.querySelectorAll(".input-text");
-inputElements.forEach(e => {
+document.querySelectorAll(".input-text").forEach(e => {
   e.addEventListener("change", textsChanged)
 });
 
-const exportButton = document.getElementById("export") as HTMLButtonElement;
 exportButton.addEventListener("click", () => {
-  const text1 = text1element.value.toUpperCase();
+  const text1 = text1element.value.toUpperCase()
   const text2 = text2element.value.toUpperCase();
   exportSTL(`${text1}-${text2}.stl`);
 });
 
-baseToggle.addEventListener("change", () => {
-  textsChanged()
-})
+baseToggle.addEventListener("change", textsChanged);
