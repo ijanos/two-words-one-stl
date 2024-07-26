@@ -12,7 +12,7 @@ const exportButton = document.getElementById("export") as HTMLButtonElement;
 const notAlphanumCharsRE = /[^a-zA-Z\d]/g;
 
 function normalizeInput(input: HTMLInputElement) {
-  const text = input.value
+  const text = input.value;
   const normalized = text.replace(notAlphanumCharsRE, "").toUpperCase();
   input.value = normalized;
   return normalized;
@@ -28,7 +28,7 @@ function textsChanged() {
   }
   errorBox.style.display = "none";
 
-  const pairs = [...text2].map((ch, i) => `${ch}${text1[i]}`);
+  const pairs = [...text2].map((ch, i) => `${ ch }${ text1[i] }`);
   update3DText(pairs, baseToggle.checked);
 }
 

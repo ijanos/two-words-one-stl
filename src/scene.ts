@@ -6,7 +6,7 @@ const scene = new THREE.Scene();
 const exporter = new STLExporter();
 const loader = new STLLoader()
 const material = new THREE.MeshMatcapMaterial({ flatShading: true });
-
+let orbitControl: OrbitControls|undefined = undefined;
 
 async function loadGlyphs(glyphs: string[], addBase: boolean) {
     let Xpos = 0;
@@ -18,16 +18,20 @@ async function loadGlyphs(glyphs: string[], addBase: boolean) {
         scene.add(mesh);
     });
 
+    const sceneBoundingBox = new THREE.Box3().setFromObject(scene);
+    const sceneCenter = new THREE.Vector3();
+    sceneBoundingBox.getCenter(sceneCenter);
+    orbitControl!.target = sceneCenter;
+
     if (addBase) {
-        const sceneBBox = new THREE.Box3().setFromObject(scene);
-        const dimensions = new THREE.Vector3().subVectors( sceneBBox.max, sceneBBox.min );
+        const dimensions = new THREE.Vector3().subVectors( sceneBoundingBox.max, sceneBoundingBox.min );
         const boxGeo = new RoundedBoxGeometry(dimensions.x, dimensions.y, dimensions.z, 24);
-        const matrix = new THREE.Matrix4().setPosition(dimensions.addVectors(sceneBBox.min, sceneBBox.max).multiplyScalar( 0.5 ));
+        const matrix = new THREE.Matrix4().setPosition(dimensions.addVectors(sceneBoundingBox.min, sceneBoundingBox.max).multiplyScalar( 0.5 ));
         boxGeo.applyMatrix4(matrix);
 
         const base = new THREE.Mesh(boxGeo, material);
         base.scale.set(1, 0.095, 1);
-        base.position.y -= 0.009;
+        base.position.y -= 0.02;
         scene.add(base);
     }
 }
@@ -48,6 +52,9 @@ function setup3DCanvas(canvasContainer: HTMLElement) {
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     const controls = new OrbitControls(camera, renderer.domElement);
+    orbitControl = controls;
+    controls.enablePan = false;
+    controls.enableDamping = true;
 
     renderer.setSize(width, height);
     canvasContainer.appendChild(renderer.domElement);
@@ -56,6 +63,7 @@ function setup3DCanvas(canvasContainer: HTMLElement) {
     controls.update();
 
     function animate() {
+        controls.update();
         renderer.render(scene, camera);
     }
 
