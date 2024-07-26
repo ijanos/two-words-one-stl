@@ -19,7 +19,7 @@ function textsChanged() {
 
 const inputElements = document.querySelectorAll(".input-text");
 inputElements.forEach(e => {
-  e.addEventListener("change", () => { textsChanged() })
+  e.addEventListener("change", textsChanged)
 });
 
 const exportButton = document.getElementById("export") as HTMLButtonElement;
