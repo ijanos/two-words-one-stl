@@ -13,6 +13,10 @@
         <div class="bg-slate-300 flex flex-col p-2 gap-2 w-3/12">
           <input type="text" id="text-1" class="input-text font-mono bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="form" />
           <input type="text" id="text-2" class="input-text font-mono bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="labs" />
+          <div class="flex items-center ps-4 border bg-gray-50 border-gray-200 rounded-lg">
+            <input id="add-base" type="checkbox" value="" name="bordered-checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+            <label for="add-base" class="w-full py-4 ms-2 text-sm font-medium text-gray-900">add base</label>
+          </div>
           <button type="button" id="export" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">export STL</button>
         </div>
         <div class="bg-lime-600 flex-grow" id="canvasContainer"></div>
