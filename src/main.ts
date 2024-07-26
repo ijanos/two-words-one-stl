@@ -5,6 +5,8 @@ setup3DCanvas(canvasContainer);
 
 const text1element = document.getElementById("text-1") as HTMLInputElement;
 const text2element = document.getElementById("text-2") as HTMLInputElement;
+const baseToggle = document.getElementById("base-toggle") as HTMLInputElement;
+
 
 function textsChanged() {
   const text1 = text1element.value.toUpperCase();
@@ -14,7 +16,7 @@ function textsChanged() {
     return;
   }
   const pairs = [...text2].map((ch, i) => `${ch}${text1[i]}`);
-  update3DText(pairs);
+  update3DText(pairs, baseToggle.checked);
 }
 
 textsChanged();
@@ -31,7 +33,6 @@ exportButton.addEventListener("click", () => {
   exportSTL(`${text1}-${text2}.stl`);
 });
 
-const baseToggle = document.getElementById("base-toggle") as HTMLInputElement;
 baseToggle.addEventListener("change", () => {
-  console.log("TODO", baseToggle.checked);
+  textsChanged()
 })
