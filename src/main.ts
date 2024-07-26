@@ -9,14 +9,21 @@ const renderer = new THREE.WebGLRenderer({ });
 renderer.setSize( window.innerWidth, window.innerHeight );
 const canvasContainer = document.getElementById("canvasContainer")!;
 canvasContainer.appendChild( renderer.domElement );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: true } );
+const material = new THREE.MeshBasicMaterial( { color: 0x00ff00, wireframe: false } );
 
 const loader = new STLLoader()
-loader.load(
-    'font/FL.stl',
+
+let Xpos = 0;
+
+function loadGlyph(glyph: string) {
+  loader.load(
+    `font/${ glyph }.stl`,
     function (geometry) {
         const mesh = new THREE.Mesh(geometry, material)
-        scene.add(mesh)
+        scene.add(mesh);
+        mesh.position.set(Xpos, 0, 0);
+        Xpos += 0.29;
+        mesh.rotateY(0.7);
     },
     (xhr) => {
         console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
@@ -24,7 +31,13 @@ loader.load(
     (error) => {
         console.log(error)
     }
-)
+  )
+}
+
+loadGlyph("FL");
+loadGlyph("OA");
+loadGlyph("RB");
+loadGlyph("MS");
 
 const controls = new OrbitControls( camera, renderer.domElement );
 
