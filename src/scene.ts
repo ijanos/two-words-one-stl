@@ -42,8 +42,6 @@ function setup3DCanvas(canvasContainer: HTMLElement) {
     controls.update();
 
     function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
         renderer.render(scene, camera);
     }
 
