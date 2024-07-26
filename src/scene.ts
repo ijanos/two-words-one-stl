@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { STLLoader } from 'three/examples/jsm/Addons.js';
 
-export function setup3DCanvas(canvasContainer: HTMLElement) {
+function setup3DCanvas(canvasContainer: HTMLElement) {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -64,3 +64,9 @@ export function setup3DCanvas(canvasContainer: HTMLElement) {
         camera.updateProjectionMatrix();
     }
 }
+
+function update3DText(letterPairs: string[]) {
+    console.log(letterPairs);
+}
+
+export { setup3DCanvas, update3DText }
