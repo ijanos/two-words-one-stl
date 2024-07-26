@@ -7,27 +7,25 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer();
 const controls = new OrbitControls(camera, renderer.domElement);
 const loader = new STLLoader()
+const material = new THREE.MeshMatcapMaterial()
 
-async function setup3DCanvas(canvasContainer: HTMLElement) {
-    renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
-    canvasContainer.appendChild(renderer.domElement);
-    const material = new THREE.MeshMatcapMaterial()
-
+async function loadGlyphs(glyphs: string[]) {
     let Xpos = 0;
-
-    async function loadGlyph(glyph: string) {
-        const geometry = await loader.loadAsync(`font/${ glyph }.stl`);
+    (await Promise.all(glyphs.map(glyph => loader.loadAsync(`font/${glyph}.stl`))).then()).forEach(geometry => {
         const mesh = new THREE.Mesh(geometry, material)
         scene.add(mesh);
         mesh.position.set(Xpos, 0, 0);
         Xpos += 0.29;
         mesh.rotateY(0.7);
-    }
+    })
+}
 
-    await loadGlyph("FL");
-    await loadGlyph("OA");
-    await loadGlyph("RB");
-    await loadGlyph("MS");
+function setup3DCanvas(canvasContainer: HTMLElement) {
+    renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+    canvasContainer.appendChild(renderer.domElement);
+
+
+    loadGlyphs(["FL", "OA", "RB", "MS"]);
 
     camera.position.z = 2.5;
     controls.update();
@@ -54,12 +52,10 @@ async function setup3DCanvas(canvasContainer: HTMLElement) {
 }
 
 function update3DText(glyphs: string[]) {
-    while(scene.children.length > 0){
+    while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
     }
-    glyphs.forEach(glyph => {
-
-    });
+    loadGlyphs(glyphs);
 }
 
 export { setup3DCanvas, update3DText }
