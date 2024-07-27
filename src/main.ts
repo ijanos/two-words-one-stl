@@ -11,6 +11,7 @@ const baseToggle = document.getElementById("base-toggle") as HTMLInputElement;
 const errorBox = document.getElementById("errorBox") as HTMLDivElement;
 const exportButton = document.getElementById("export") as HTMLButtonElement;
 const letterSpacing = document.getElementById("letter-spacing") as HTMLInputElement;
+const fontSelector = document.getElementById("font-selector") as HTMLSelectElement;
 
 const notAlphanumCharsRE = /[^a-zA-Z\d]/g;
 
@@ -32,7 +33,7 @@ function textsChanged() {
   errorBox.style.display = "none";
 
   const pairs = [...text2].map((ch, i) => `${ ch }${ text1[i] }`);
-  update3DText(pairs, baseToggle.checked, parseFloat(letterSpacing.value));
+  update3DText(pairs, baseToggle.checked, parseFloat(letterSpacing.value), fontSelector.value);
 }
 
 textsChanged();
@@ -49,3 +50,4 @@ exportButton.addEventListener("click", () => {
 
 baseToggle.addEventListener("change", textsChanged);
 letterSpacing.addEventListener("change", textsChanged);
+fontSelector.addEventListener("change", textsChanged);

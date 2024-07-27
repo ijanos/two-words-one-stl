@@ -11,19 +11,21 @@ let loadingIndicator:  HTMLElement|undefined = undefined;
 
 const glyphCache = new Map<string, THREE.BufferGeometry>();
 
-async function getGlyph(glyph: string) {
-    if (glyphCache.has(glyph)) {
-        return glyphCache.get(glyph);
+async function getGlyph(glyph: string, font: string) {
+    const cacheKey = `${ font }_${glyph}`;
+    if (glyphCache.has(cacheKey)) {
+        return glyphCache.get(cacheKey);
     }
-    const geo = await loader.loadAsync(`font/${glyph}.stl`);
-    glyphCache.set(glyph, geo);
+    console.log(`font_${ font }/${glyph}.stl`);
+    const geo = await loader.loadAsync(`font_${ font }/${glyph}.stl`);
+    glyphCache.set(cacheKey, geo);
     return geo;
 }
 
-async function loadGlyphs(glyphs: string[], addBase: boolean, spacing: number) {
+async function loadGlyphs(glyphs: string[], addBase: boolean, spacing: number, font: string) {
     loadingIndicator!.style.display = "block";
     let Xpos = 0;
-    (await Promise.all(glyphs.map(glyph => getGlyph(glyph))).then()).forEach(geometry => {
+    (await Promise.all(glyphs.map(glyph => getGlyph(glyph, font))).then()).forEach(geometry => {
         const mesh = new THREE.Mesh(geometry, material)
         mesh.position.set(Xpos, 0, 0);
         Xpos += spacing;
@@ -97,11 +99,11 @@ function setup3DCanvas(canvasContainer: HTMLElement, loadingDiv: HTMLElement) {
 
 }
 
-function update3DText(glyphs: string[], addBase: boolean, spacing: number) {
+function update3DText(glyphs: string[], addBase: boolean, spacing: number, font: string) {
     while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
     }
-    loadGlyphs(glyphs, addBase, spacing);
+    loadGlyphs(glyphs, addBase, spacing, font);
 }
 
 export { setup3DCanvas, update3DText, exportSTL }
