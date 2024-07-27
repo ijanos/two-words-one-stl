@@ -1,6 +1,6 @@
 import { setup3DCanvas, update3DText, exportSTL } from "./scene";
 
-const canvasContainer = document.getElementById("canvasContainer")!;
+const canvasContainer = document.getElementById("canvasContainer") as HTMLDivElement;
 const loading = document.getElementById("loading") as HTMLDivElement;
 
 setup3DCanvas(canvasContainer, loading);
@@ -36,18 +36,19 @@ function textsChanged() {
   update3DText(pairs, baseToggle.checked, parseFloat(letterSpacing.value), fontSelector.value);
 }
 
-textsChanged();
 
 document.querySelectorAll(".input-text").forEach(e => {
   e.addEventListener("change", textsChanged)
 });
 
 exportButton.addEventListener("click", () => {
-  const text1 = text1element.value.toUpperCase()
-  const text2 = text2element.value.toUpperCase();
-  exportSTL(`${text1}-${text2}.stl`);
+  const text1 = text1element.value;
+  const text2 = text2element.value;
+  exportSTL(`${ text1 }-${ text2 }.stl`);
 });
 
 baseToggle.addEventListener("change", textsChanged);
 letterSpacing.addEventListener("change", textsChanged);
 fontSelector.addEventListener("change", textsChanged);
+
+textsChanged();

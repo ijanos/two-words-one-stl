@@ -12,11 +12,11 @@ let loadingIndicator:  HTMLElement|undefined = undefined;
 const glyphCache = new Map<string, Promise<THREE.BufferGeometry>>();
 
 async function getGlyph(glyph: string, font: string) {
-    const cacheKey = `${ font }_${glyph}`;
+    const cacheKey = `${ font }_${ glyph }`;
     if (glyphCache.has(cacheKey)) {
         return glyphCache.get(cacheKey);
     }
-    const geo = loader.loadAsync(`font_${ font }/${glyph}.stl`);
+    const geo = loader.loadAsync(`font_${ font }/${ glyph }.stl`);
     glyphCache.set(cacheKey, geo);
     return geo;
 }
