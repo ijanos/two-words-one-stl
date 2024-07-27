@@ -36,8 +36,7 @@ function textsChanged() {
   update3DText(pairs, baseToggle.checked, parseFloat(letterSpacing.value), fontSelector.value);
 }
 
-
-document.querySelectorAll(".input-text").forEach(e => {
+document.querySelectorAll(".changes-input").forEach(e => {
   e.addEventListener("change", textsChanged)
 });
 
@@ -46,9 +45,5 @@ exportButton.addEventListener("click", () => {
   const text2 = text2element.value;
   exportSTL(`${ text1 }-${ text2 }.stl`);
 });
-
-baseToggle.addEventListener("change", textsChanged);
-letterSpacing.addEventListener("change", textsChanged);
-fontSelector.addEventListener("change", textsChanged);
 
 textsChanged();
