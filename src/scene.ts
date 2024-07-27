@@ -7,8 +7,10 @@ const exporter = new STLExporter();
 const loader = new STLLoader()
 const material = new THREE.MeshMatcapMaterial({ flatShading: true });
 let orbitControl: OrbitControls|undefined = undefined;
+let loadingIndicator:  HTMLElement|undefined = undefined;
 
 async function loadGlyphs(glyphs: string[], addBase: boolean) {
+    loadingIndicator!.style.display = "block";
     let Xpos = 0;
     (await Promise.all(glyphs.map(glyph => loader.loadAsync(`font/${glyph}.stl`))).then()).forEach(geometry => {
         const mesh = new THREE.Mesh(geometry, material)
@@ -24,7 +26,7 @@ async function loadGlyphs(glyphs: string[], addBase: boolean) {
     orbitControl!.target = sceneCenter;
 
     if (addBase) {
-        const dimensions = new THREE.Vector3().subVectors( sceneBoundingBox.max, sceneBoundingBox.min );
+        const dimensions = new THREE.Vector3().subVectors(sceneBoundingBox.max, sceneBoundingBox.min);
         const boxGeo = new RoundedBoxGeometry(dimensions.x, dimensions.y, dimensions.z, 24);
         const matrix = new THREE.Matrix4().setPosition(dimensions.addVectors(sceneBoundingBox.min, sceneBoundingBox.max).multiplyScalar( 0.5 ));
         boxGeo.applyMatrix4(matrix);
@@ -34,6 +36,7 @@ async function loadGlyphs(glyphs: string[], addBase: boolean) {
         base.position.y -= 0.02;
         scene.add(base);
     }
+    loadingIndicator!.style.display = "none";
 }
 
 function exportSTL(filename: string) {
@@ -46,7 +49,8 @@ function exportSTL(filename: string) {
     a.click();
 }
 
-function setup3DCanvas(canvasContainer: HTMLElement) {
+function setup3DCanvas(canvasContainer: HTMLElement, loadingDiv: HTMLElement) {
+    loadingIndicator = loadingDiv;
     const width = canvasContainer.clientWidth;
     const height = canvasContainer.clientHeight;
     const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);

@@ -1,7 +1,9 @@
 import { setup3DCanvas, update3DText, exportSTL } from "./scene";
 
 const canvasContainer = document.getElementById("canvasContainer")!;
-setup3DCanvas(canvasContainer);
+const loading = document.getElementById("loading") as HTMLDivElement;
+
+setup3DCanvas(canvasContainer, loading);
 
 const text1element = document.getElementById("text-1") as HTMLInputElement;
 const text2element = document.getElementById("text-2") as HTMLInputElement;
