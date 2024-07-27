@@ -9,15 +9,14 @@ const material = new THREE.MeshMatcapMaterial({ flatShading: true });
 let orbitControl: OrbitControls|undefined = undefined;
 let loadingIndicator:  HTMLElement|undefined = undefined;
 
-const glyphCache = new Map<string, THREE.BufferGeometry>();
+const glyphCache = new Map<string, Promise<THREE.BufferGeometry>>();
 
 async function getGlyph(glyph: string, font: string) {
     const cacheKey = `${ font }_${glyph}`;
     if (glyphCache.has(cacheKey)) {
         return glyphCache.get(cacheKey);
     }
-    console.log(`font_${ font }/${glyph}.stl`);
-    const geo = await loader.loadAsync(`font_${ font }/${glyph}.stl`);
+    const geo = loader.loadAsync(`font_${ font }/${glyph}.stl`);
     glyphCache.set(cacheKey, geo);
     return geo;
 }
@@ -25,7 +24,7 @@ async function getGlyph(glyph: string, font: string) {
 async function loadGlyphs(glyphs: string[], addBase: boolean, spacing: number, font: string) {
     loadingIndicator!.style.display = "block";
     let Xpos = 0;
-    (await Promise.all(glyphs.map(glyph => getGlyph(glyph, font))).then()).forEach(geometry => {
+    (await Promise.all(glyphs.map(glyph => getGlyph(glyph, font)))).forEach(geometry => {
         const mesh = new THREE.Mesh(geometry, material)
         mesh.position.set(Xpos, 0, 0);
         Xpos += spacing;
