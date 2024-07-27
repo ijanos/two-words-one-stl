@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { STLLoader, STLExporter, RoundedBoxGeometry } from 'three/examples/jsm/Addons.js';
+import { STLLoader, STLExporter, RoundedBoxGeometry, STLExporterOptions } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene();
 const exporter = new STLExporter();
@@ -51,13 +51,14 @@ async function loadGlyphs(glyphs: string[], addBase: boolean, spacing: number) {
 }
 
 function exportSTL(filename: string) {
-    const options = { binary: true }
+    const options: STLExporterOptions = { binary: true };
     const result = exporter.parse(scene, options) as DataView;
     const url = URL.createObjectURL(new Blob([result.buffer], { type: 'application/sla' }));
-    var a = document.createElement("a");
+    const a = document.createElement("a");
     a.href = url;
     a.download = filename;
     a.click();
+    a.remove();
 }
 
 function setup3DCanvas(canvasContainer: HTMLElement, loadingDiv: HTMLElement) {
