@@ -9,13 +9,13 @@ const material = new THREE.MeshMatcapMaterial({ flatShading: true });
 let orbitControl: OrbitControls|undefined = undefined;
 let loadingIndicator:  HTMLElement|undefined = undefined;
 
-async function loadGlyphs(glyphs: string[], addBase: boolean) {
+async function loadGlyphs(glyphs: string[], addBase: boolean, spacing: number) {
     loadingIndicator!.style.display = "block";
     let Xpos = 0;
     (await Promise.all(glyphs.map(glyph => loader.loadAsync(`font/${glyph}.stl`))).then()).forEach(geometry => {
         const mesh = new THREE.Mesh(geometry, material)
         mesh.position.set(Xpos, 0, 0);
-        Xpos += 0.31;
+        Xpos += spacing;
         mesh.rotateY(0.785);
         scene.add(mesh);
     });
@@ -86,11 +86,11 @@ function setup3DCanvas(canvasContainer: HTMLElement, loadingDiv: HTMLElement) {
     }
 }
 
-function update3DText(glyphs: string[], addBase: boolean) {
+function update3DText(glyphs: string[], addBase: boolean, spacing: number) {
     while (scene.children.length > 0) {
         scene.remove(scene.children[0]);
     }
-    loadGlyphs(glyphs, addBase);
+    loadGlyphs(glyphs, addBase, spacing);
 }
 
 export { setup3DCanvas, update3DText, exportSTL }
