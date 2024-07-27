@@ -66,24 +66,23 @@ function setup3DCanvas(canvasContainer: HTMLElement, loadingDiv: HTMLElement) {
     camera.position.z = 2.5;
     controls.update();
 
-    function animate() {
+    renderer.setAnimationLoop(() => {
         controls.update();
         renderer.render(scene, camera);
-    }
-
-    renderer.setAnimationLoop(animate);
-
-    window.addEventListener('resize', onWindowResize, false);
+    });
 
     function onWindowResize() {
         const w = canvasContainer.clientWidth;
         const h = canvasContainer.clientHeight;
 
-        renderer.setSize(w, h);
         camera.aspect = w / h;
-        controls.update();
         camera.updateProjectionMatrix();
+        controls.update();
+        renderer.setSize(w, h);
+        renderer.setPixelRatio(window.devicePixelRatio);
     }
+    window.addEventListener('resize', onWindowResize, false);
+
 }
 
 function update3DText(glyphs: string[], addBase: boolean, spacing: number) {

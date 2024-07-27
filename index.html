@@ -15,24 +15,24 @@
     <div class="flex flex-col h-dvh">
       <div class="bg-slate-400 p-2 font-extrabold font-mono text-2xl">two words one stl</div>
       <div class="flex flex-grow">
-        <div class="bg-slate-300 flex flex-col p-2 gap-2 w-1/6 border-r-cyan-800 border-r-4">
+        <div class="bg-slate-300 flex flex-col p-2 gap-2 min-w-96 border-r-cyan-800 border-r-4">
           <input type="text" id="text-1" class="input-text text-lg font-mono bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="form" autocomplete="off"/>
           <input type="text" id="text-2" class="input-text text-lg font-mono bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value="labs" autocomplete="off"/>
           <div class="flex items-center ps-4 border bg-gray-50 border-gray-200 rounded-lg">
             <input id="base-toggle" type="checkbox" value="" name="bordered-checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
-            <label for="base-toggle" class="w-full py-2.5 ms-2 text-lg font-mono font-medium text-gray-900">add base</label>
+            <label for="base-toggle" class="w-full py-2.5 ms-2 text-lg font-mono font-medium text-gray-900 cursor-pointer">add base</label>
           </div>
 
           <div class="bg-gray-50 rounded-lg p-2 font-mono">
-            <label for="letter-spacing" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Letter spacing</label>
-            <input id="letter-spacing" type="range" value="0.3" min="0.2" max="0.5" step="0.001" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+            <label for="letter-spacing" class="block mb-2 text-lg font-medium text-gray-900">letter spacing</label>
+            <input id="letter-spacing" type="range" value="0.3" min="0.18" max="0.51" step="0.001" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
           </div>
 
           <div id="errorBox" class="bg-yellow-200 p-3 rounded-lg font-semibold text-xl hidden text-center">⚠️<br> Both words needs to be the same length</div>
           <button type="button" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">Do it!</button>
           <button type="button" id="export" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none">export STL</button>
         </div>
-        <div class="flex-grow" id="canvasContainer"></div>
+        <div class="w-full" id="canvasContainer"></div>
       </div>
     </div>
     <script type="module" src="/src/main.ts"></script>
