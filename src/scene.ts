@@ -39,13 +39,20 @@ async function loadGlyphs(glyphs: string[], addBase: boolean, spacing: number, f
 
     if (addBase) {
         const dimensions = new THREE.Vector3().subVectors(sceneBoundingBox.max, sceneBoundingBox.min);
-        const boxGeo = new RoundedBoxGeometry(dimensions.x, dimensions.y, dimensions.z, 24, 0.03);
+        const boxGeo = new RoundedBoxGeometry(dimensions.x, dimensions.y, dimensions.z, 8, 0.025);
         const matrix = new THREE.Matrix4().setPosition(dimensions.addVectors(sceneBoundingBox.min, sceneBoundingBox.max).multiplyScalar( 0.5 ));
         boxGeo.applyMatrix4(matrix);
 
         const base = new THREE.Mesh(boxGeo, material);
-        base.scale.set(1, 0.27, 1);
-        base.position.y -= 0.08;
+        base.scale.set(1.08, 0.18, 1.3);
+
+        base.geometry.computeBoundingBox()
+        const bbb = base.geometry.boundingBox;
+        const size = new THREE.Vector3();
+        bbb?.getSize(size);
+
+        base.position.x -= (size.x * 0.08) / 2;
+        base.position.y -= 0.065;
         scene.add(base);
     }
     loadingIndicator!.style.display = "none";
